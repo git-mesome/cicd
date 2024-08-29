@@ -75,3 +75,10 @@ jobs:
         run: |
           ssh -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
               -o StrictHostKeyChecking=no -i /tmp/new_id ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_DAISY_03}} "echo 내부망 서버 연결 성공"
+
+      - name: 타겟 서버에 파일 복사
+        run: |
+          ssh -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
+              -i /tmp/new_id -r "$GITHUB_WORKSPACE/"* ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_DAISY_03}}:~/app
+    
+          
