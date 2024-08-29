@@ -33,7 +33,7 @@ jobs:
       - name: Bun 셋업
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: lastest
+          bun-version: latest
 
       - name: 패키지 설치
         run: bun install
