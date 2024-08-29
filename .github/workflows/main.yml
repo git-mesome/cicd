@@ -78,7 +78,7 @@ jobs:
 
       - name: 타겟 서버에 파일 복사
         run: |
-          ssh -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
+          scp -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
               -i /tmp/new_id -r "$GITHUB_WORKSPACE/"* ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_DAISY_03}}:~/app
     
           
