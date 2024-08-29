@@ -14,7 +14,7 @@ jobs:
 
       - run: bun --version
 
-# package.json 필수
+  # package.json 필수
   setup:
     runs-on: ubuntu-latest
     needs: init
@@ -40,3 +40,33 @@ jobs:
 
       - name: 테스트 수행
         run: bun test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bun 셋업
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Node.js 셋업
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.16.0'
+
+      - name: SSH 셋업
+        uses: webFactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{secrets.SSH_WISOFT_ADMIN_PRIVATE_KEY}}
+
+      - name: SSH 파일 저장
+        run: |
+          echo "${{secrets.SSH_WISOFT_ADMIN_PRIVATE_KEY}}" > /tmp/new_id
+          chmod 600 /tmp/new_id
+
+      - name: 배스천 서버 연결 테스트
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/new_id ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}} -p 10020 "echo 중간 서버 연결 성공"
