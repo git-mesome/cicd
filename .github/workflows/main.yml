@@ -80,5 +80,13 @@ jobs:
         run: |
           scp -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
               -i /tmp/new_id -r "$GITHUB_WORKSPACE/"* ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_DAISY_03}}:~/app
-    
-          
+
+      - name: 의존성 설치 및 서버 재구동
+        run: |
+          ssh -J ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_WISOFT}}:10020 \
+              -i /tmp/new_id ${{secrets.SSH_USER_WISOFT}}@${{secrets.SSH_HOST_DAISY_03}} << 'ENDSSH'
+            cd ~/app
+            $HOME/.asdf/shims/bun install
+            $HOME/.asdf/shims/pm2 start ecosystem.config.cjs
+            echo "deployment success"
+          ENDSSH
