@@ -1,4 +1,5 @@
 const server = Bun.serve({
+  port: 4000,
   async fetch(req) {
     const path = new URL(req.url).pathname;
 

@@ -1,5 +1,5 @@
 module.exports = {
   name: "main-app",
-  scripts: "main/app.ts",
+  script: "main/app.ts",
   interpreter: "/home/wisoft/.asdf/shims/bun",
 };
